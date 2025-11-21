@@ -345,6 +345,44 @@
             background: #e68900;
             transform: translateY(-2px);
         }
+
+        .battlecards-button-container {
+            text-align: center;
+            margin: -10px auto 30px auto;
+            padding: 0 20px;
+        }
+
+        .battlecards-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff9900, #ffb84d);
+            color: #232f3e;
+            text-decoration: none;
+            padding: 18px 40px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            box-shadow: 0 6px 20px rgba(255, 153, 0, 0.4);
+            transition: all 0.3s ease;
+            border: 3px solid #232f3e;
+        }
+
+        .battlecards-button:hover {
+            background: linear-gradient(135deg, #ffb84d, #ff9900);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 153, 0, 0.6);
+        }
+
+        .battlecards-button:active {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(255, 153, 0, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .battlecards-button {
+                font-size: 1rem;
+                padding: 15px 30px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -353,6 +391,12 @@
             <h1>AWS Cloud Practitioner</h1>
             <p>Cheat Sheet Completo - Organizado por Tipo de Serviço</p>
         </header>
+
+        <div class="battlecards-button-container">
+            <a href="aws_battlecards_completo.html" class="battlecards-button">
+                🎯 Praticar com Battlecards - Quiz Interativo
+            </a>
+        </div>
 
         <nav class="toc">
             <h2>📋 Índice</h2>
