@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS Battlecards - 36 Questões Completas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #232f3e, #ff9900);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .slide {
+            background: white;
+            color: #232f3e;
+            border-radius: 20px;
+            padding: 80px 40px 70px 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            margin-bottom: 30px;
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .slide-number {
+            background: #ff9900;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            display: inline-block;
+            margin-bottom: 30px;
+        }
+
+        .question {
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-bottom: 50px;
+            line-height: 1.3;
+            color: #232f3e;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .option {
+            background: #f8f9fa;
+            border: 3px solid #e9ecef;
+            border-radius: 15px;
+            padding: 30px 20px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .option:hover {
+            border-color: #ff9900;
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(255, 153, 0, 0.3);
+        }
+
+        .option.correct {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .option.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+
+        .answer-revealed .option.correct {
+            animation: pulse 1s ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(35, 47, 62, 0.9);
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+        }
+
+        .title-slide {
+            text-align: center;
+            padding: 80px 40px;
+        }
+
+        .title-slide h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #232f3e;
+        }
+
+        .title-slide p {
+            font-size: 1.3rem;
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        .start-button {
+            background: #ff9900;
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            border-radius: 25px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .start-button:hover {
+            background: #e68900;
+            transform: translateY(-2px);
+        }
+
+        .restart-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(35, 47, 62, 0.8);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .restart-button:hover {
+            background: rgba(35, 47, 62, 1);
+            transform: translateY(-1px);
+        }
+
+        .final-slide {
+            text-align: center;
+            padding: 80px 40px;
+        }
+
+        .final-slide h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #232f3e;
+        }
+
+        .final-slide p {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Botão de Reiniciar -->
+    <button class="restart-button" onclick="restartPresentation()" id="restartBtn" style="display: none;">
+        🔄 Reiniciar
+    </button>
+
+    <!-- Slide Título -->
+    <div class="container" id="slide0">
+        <div class="slide title-slide">
+            <h1>🎯 AWS Battlecards</h1>
+            <p>36 Questões para Treinar AWS Cloud Practitioner</p>
+            <p><strong>Instruções:</strong> Clique nas opções para revelar a resposta correta</p>
+            <button class="start-button" onclick="showSlide(1)">Começar</button>
+        </div>
+    </div>
+
+    <!-- Slide 1 -->
+    <div class="container" id="slide1" style="display: none;">
+        <div class="slide">
+            <div class="slide-number">Questão 1 de 36</div>
+            <div class="question">Banco de dados gerenciado de alta performance compatível com MySQL e PostgreSQL</div>
+            <div class="options">
+                <div class="option" onclick="revealAnswer(1, false)">Amazon RDS</div>
+                <div class="option" onclick="revealAnswer(1, true)">Amazon Aurora</div>
+            </div>
+            <div style="margin-top: 30px;">
+                <button class="start-button" onclick="showSlide(2)" id="next1" style="display: none;">Próxima Questão →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 2 -->
+    <div class="container" id="slide2" style="display: none;">
+        <div class="slide">
+            <div class="slide-number">Questão 2 de 36</div>
+            <div class="question">Executa código sem necessidade de provisionar servidores</div>
+            <div class="options">
+                <div class="option" onclick="revealAnswer(2, true)">AWS Lambda</div>
+                <div class="option" onclick="revealAnswer(2, false)">Amazon EC2</div>
+            </div>
+            <div style="margin-top: 30px;">
+                <button class="start-button" onclick="showSlide(3)" id="next2" style="display: none;">Próxima Questão →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 3 -->
+    <div class="container" id="slide3" style="display: none;">
+        <div class="slide">
+            <div class="slide-number">Questão 3 de 36</div>
+            <div class="question">Oferece desconto com possibilidade de reserva de capacidade</div>
+            <div class="options">
+                <div class="option" onclick="revealAnswer(3, true)">Reserved Instance</div>
+                <div class="option" onclick="revealAnswer(3, false)">Spot Instance</div>
+            </div>
+            <div style="margin-top: 30px;">
+                <button class="start-button" onclick="showSlide(4)" id="next3" style="display: none;">Próxima Questão →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 4 -->
+    <div class="container" id="slide4" style="display: none;">
+        <div class="slide">
+            <div class="slide-number">Questão 4 de 36</div>
+            <div class="question">Plano de suporte que libera acesso à API de suporte da AWS</div>
+            <div class="options">
+                <div class="option" onclick="revealAnswer(4, true)">Business</div>
+                <div class="option" onclick="revealAnswer(4, false)">Developer</div>
+            </div>
+            <div style="margin-top: 30px;">
+                <button class="start-button" onclick="showSlide(5)" id="next4" style="display: none;">Próxima Questão →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 5 -->
+    <div class="container" id="slide5" style="display: none;">
+        <div class="slide">
+            <div class="slide-number">Questão 5 de 36</div>
+            <div class="question">CDN da AWS para entrega de conteúdo com baixa latência</div>
+            <div class="options">
+                <div class="option" onclick="revealAnswer(5, true)">Amazon CloudFront</div>
+                <div class="option" onclick="revealAnswer(5, false)">Amazon S3</div>
+            </div>
+            <div style="margin-top: 30px;">
+                <button class="start-button" onclick="showSlide(6)" id="next5" style="display: none;">Próxima Questão →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 6 -->
+    <div class="container" id="slide6" style="display: none;">
+        <div class="slide">
+            <div class="slide-number">Questão 6 de 36</div>
+            <div class="question">Banco de dados NoSQL totalmente gerenciado</div>
+            <div class="options">
+                <div class="option" onclick="revealAnswer(6, true)">Amazon DynamoDB</div>
+                <div class="option" onclick="revealAnswer(6, false)">Amazon RDS</div>
+            </div>
+            <div style="margin-top: 30px;">
+                <button class="start-button" onclick="showSlide(7)" id="next6" style="display: none;">Próxima Questão →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 7 -->
+    <div class="container" id="slide7" style="display: none;">
+        <div class="slide">
+            <div class="slide-number">Questão 7 de 36</div>
+            <div class="question">Firewall no nível da instância EC2</div>
+            <div class="options">
+                <div class="option" onclick="revealAnswer(7, true)">Security Group</div>
+                <div class="option" onclick="revealAnswer(7, false)">AWS WAF</div>
+            </div>
+            <div style="margin-top: 30px;">
+                <button class="start-button" onclick="showSlide(8)" id="next7" style="display: none;">Próxima Questão →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 8 -->
+    <div class="container" id="slide8" style="display: none;">
+        <div class="slide">
+            <div class="slide-number">Questão 8 de 36</div>
+            <div class="question">Serviço de armazenamento de objetos com 99,999999999% de durabilidade</div>
+            <div class="options">
+                <div class="option" onclick="revealAnswer(8, true)">Amazon S3</div>
+                <div class="option" onclick="revealAnswer(8, false)">Amazon EBS</div>
+            </div>
+            <div style="margin-top: 30px;">
+                <button class="start-button" onclick="showSlide(9)" id="next8" style="display: none;">Próxima Questão →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 9 -->
+    <div class="container" id="slide9" style="display: none;">
+        <div class="slide">
+            <div class="slide-number">Questão 9 de 36</div>
+            <div class="question">Serviço que avalia vulnerabilidades de segurança em aplicações</div>
+            <div class="options">
+                <div class="option" onclick="revealAnswer(9, true)">AWS Inspector</div>
+                <div class="option" onclick="revealAnswer(9, false)">AWS CloudTrail</div>
+            </div>
+            <div style="margin-top: 30px;">
+                <button class="start-button" onclick="showSlide(10)" id="next9" style="display: none;">Próxima Questão →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 10 -->
+    <div class="container" id="slide10" style="display: none;">
+        <div class="slide">
+            <div class="slide-number">Questão 10 de 36</div>
+            <div class="question">Serviço para construir, treinar e implantar modelos de machine learning</div>
+            <div class="options">
+                <div class="option" onclick="revealAnswer(10, true)">Amazon SageMaker</div>
+                <div class="option" onclick="revealAnswer(10, false)">Amazon Lex</div>
+            </div>
+            <div style="margin-top: 30px;">
+                <button class="start-button" onclick="showSlide(11)" id="next10" style="display: none;">Próxima Questão →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 11 -->
+    <div class="container" id="slide11" style="display: none;">
+        <div class="slide">
+            <div class="slide-number">Questão 11 de 36</div>
+            <div class="question">Perspectiva do CAF focada em alinhar estratégia de TI com resultados de negócios</div>
+            <div class="options">
+                <div class="option" onclick="revealAnswer(11, true)">Business</div>
+                <div class="option" onclick="revealAnswer(11, false)">Technology</div>
+            </div>
+            <div style="margin-top: 30px;">
+                <button class="start-button" onclick="showSlide(12)" id="next11" style="display: none;">Próxima Questão →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 12 -->
+    <div class="container" id="slide12" style="display: none;">
+        <div class="slide">
+            <div class="slide-number">Questão 12 de 36</div>
+            <div class="question">Serviço que distribui automaticamente o tráfego entre múltiplas instâncias</div>
+            <div class="options">
+                <div class="option" onclick="revealAnswer(12, true)">Elastic Load Balancer</div>
+                <div class="option" onclick="revealAnswer(12, false)">Amazon Route 53</div>
+            </div>
+            <div style="margin-top: 30px;">
+                <button class="start-button" onclick="showSlide(13)" id="next12" style="display: none;">Próxima Questão →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 13 -->
+    <div class="container" id="slide13" style="display: none;">
+        <div class="slide">
+            <div class="slide-number">Questão 13 de 36</div>
+            <div class="question">Cache na memória para DynamoDB</div>
+            <div class="options">
+                <div class="option" onclick="revealAnswer(13, true)">Amazon DAX</div>
+                <div class="option" onclick="revealAnswer(13, false)">Amazon ElastiCache</div>
+            </div>
+            <div style="margin-top: 30px;">
+                <button class="start-button" onclick="showSlide(14)" id="next13" style="display: none;">Próxima Questão →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 14 -->
+    <div class="container" id="slide14" style="display: none;">
+        <div class="slide">
+            <div class="slide-number">Questão 14 de 36</div>
+            <div class="question">Plano de suporte com SLA de 15 minutos para sistema de produção inativo</div>
+            <div class="options">
+                <div class="option" onclick="revealAnswer(14, true)">Enterprise</div>
+                <div class="option" onclick="revealAnswer(14, false)">Business</div>
+            </div>
+            <div style="margin-top: 30px;">
+                <button class="start-button" onclick="showSlide(15)" id="next14" style="display: none;">Próxima Questão →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 15 -->
+    <div class="container" id="slide15" style="display: none;">
+        <div class="slide">
+            <div class="slide-number">Questão 15 de 36</div>
+            <div class="question">Serviço DNS da AWS com alta disponibilidade</div>
+            <div class="options">
+                <div class="option" onclick="revealAnswer(15, true)">Amazon Route 53</div>
+                <div class="option" onclick="revealAnswer(15, false)">Amazon CloudFront</div>
+            </div>
+            <div style="margin-top: 30px;">
+                <button class="start-button" onclick="showSlide(16)" id="next15" style="display: none;">Próxima Questão →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 16 -->
+    <div class="container" id="slide16" style="display: none;">
+        <div class="slide">
+            <div class="slide-number">Questão 16 de 36</div>
+            <div class="question">Instâncias que podem ser interrompidas a qualquer hora pela AWS</div>
+            <div class="options">
+                <div class="option" onclick="revealAnswer(16, true)">Spot Instance</div>
+                <div class="option" onclick="revealAnswer(16, false)">On Demand Instance</div>
+            </div>
+            <div style="margin-top: 30px;">
+                <button class="start-button" onclick="showSlide(17)" id="next16" style="display: none;">Próxima Questão →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 17 -->
+    <div class="container" id="slide17" style="display: none;">
+        <div class="slide">
+            <div class="slide-number">Questão 17 de 36</div>
+            <div class="question">Serviço de filas para desacoplar microsserviços</div>
+            <div class="options">
+                <div class="option" onclick="revealAnswer(17, true)">Amazon SQS</div>
+                <div class="option" onclick="revealAnswer(17, false)">Amazon Kinesis</div>
+            </div>
+            <div style="margin-top: 30px;">
+                <button class="start-button" onclick="showSlide(18)" id="next17" style="display: none;">Próxima Questão →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 18 -->
+    <div class="container" id="slide18" style="display: none;">
+        <div class="slide">
+            <div class="slide-number">Questão 18 de 36</div>
+            <div class="question">Sistema de arquivos compatível com Linux para múltiplas instâncias</div>
+            <div class="options">
+                <div class="option" onclick="revealAnswer(18, true)">Amazon EFS</div>
+                <div class="option" onclick="revealAnswer(18, false)">Amazon EBS</div>
+            </div>
+            <div style="margin-top: 30px;">
+                <button class="start-button" onclick="showSlide(19)" id="next18" style="display: none;">Próxima Questão →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 19 -->
+    <div class="container" id="slide19" style="display: none;">
+        <div class="slide">
+            <div class="slide-number">Questão 19 de 36</div>
+            <div class="question">Serviço para monitorar recursos AWS e aplicações</div>
+            <div class="options">
+                <div class="option" onclick="revealAnswer(19, true)">Amazon CloudWatch</div>
+                <div class="option" onclick="revealAnswer(19, false)">AWS Config</div>
+            </div>
+            <div style="margin-top: 30px;">
+                <button class="start-button" onclick="showSlide(20)" id="next19" style="display: none;">Próxima Questão →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 20 -->
+    <div class="container" id="slide20" style="display: none;">
+        <div class="slide">
+            <div class="slide-number">Questão 20 de 36</div>
+            <div class="question">Classe de armazenamento S3 para dados acessados com pouca frequência</div>
+            <div class="options">
+                <div class="option" onclick="revealAnswer(20, true)">S3 Standard-IA</div>
+                <div class="option" onclick="revealAnswer(20, false)">S3 Standard</div>
+            </div>
+            <div style="margin-top: 30px;">
+                <button class="start-button" onclick="showSlide(21)" id="next20" style="display: none;">Próxima Questão →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 21 -->
+    <div class="container" id="slide21" style="display: none;">
+        <div class="slide">
+            <div class="slide-number">Questão 21 de 36</div>
+            <div class="question">Serviço para acessar relatórios de conformidade e acordos da AWS</div>
+            <div class="options">
+                <div class="option" onclick="revealAnswer(21, true)">AWS Artifact</div>
+                <div class="option" onclick="revealAnswer(21, false)">AWS Config</div>
+            </div>
+            <div style="margin-top: 30px;">
+                <button class="start-button" onclick="showSlide(22)" id="next21" style="display: none;">Próxima Questão →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 22 -->
+    <div class="container" id="slide22" style="display: none;">
+        <div class="slide">
+            <div class="slide-number">Questão 22 de 36</div>
+            <div class="question">Conexão privada dedicada entre data center e VPC</div>
+            <div class="options">
+                <div class="option" onclick="revealAnswer(22, true)">AWS Direct Connect</div>
+                <div class="option" onclick="revealAnswer(22, false)">AWS VPN</div>
+            </div>
+            <div style="margin-top: 30px;">
+                <button class="start-button" onclick="showSlide(23)" id="next22" style="display: none;">Próxima Questão →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 23 -->
+    <div class="container" id="slide23" style="display: none;">
+        <div class="slide">
+            <div class="slide-number">Questão 23 de 36</div>
+            <div class="question">Plano de suporte com SLA de 1 hora para sistema de produção afetado</div>
+            <div class="options">
+                <div class="option" onclick="revealAnswer(23, true)">Business</div>
+                <div class="option" onclick="revealAnswer(23, false)">Developer</div>
+            </div>
+            <div style="margin-top: 30px;">
+                <button class="start-button" onclick="showSlide(24)" id="next23" style="display: none;">Próxima Questão →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 24 -->
+    <div class="container" id="slide24" style="display: none;">
+        <div class="slide">
+            <div class="slide-number">Questão 24 de 36</div>
+            <div class="question">Serviço de notificações push para email, SMS e push notifications</div>
+            <div class="options">
+                <div class="option" onclick="revealAnswer(24, true)">Amazon SNS</div>
+                <div class="option" onclick="revealAnswer(24, false)">Amazon SES</div>
+            </div>
+            <div style="margin-top: 30px;">
+                <button class="start-button" onclick="showSlide(25)" id="next24" style="display: none;">Próxima Questão →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 25 -->
+    <div class="container" id="slide25" style="display: none;">
+        <div class="slide">
+            <div class="slide-number">Questão 25 de 36</div>
+            <div class="question">Firewall no nível da sub-rede</div>
+            <div class="options">
+                <div class="option" onclick="revealAnswer(25, true)">Network ACL</div>
+                <div class="option" onclick="revealAnswer(25, false)">Security Group</div>
+            </div>
+            <div style="margin-top: 30px;">
+                <button class="start-button" onclick="showSlide(26)" id="next25" style="display: none;">Próxima Questão →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 26 -->
+    <div class="container" id="slide26" style="display: none;">
+        <div class="slide">
+            <div class="slide-number">Questão 26 de 36</div>
+            <div class="question">Banco de dados de grafos para aplicações como redes sociais</div>
+            <div class="options">
+                <div class="option" onclick="revealAnswer(26, true)">Amazon Neptune</div>
+                <div class="option" onclick="revealAnswer(26, false)">Amazon DocumentDB</div>
+            </div>
+            <div style="margin-top: 30px;">
+                <button class="start-button" onclick="showSlide(27)" id="next26" style="display: none;">Próxima Questão →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 27 -->
+    <div class="container" id="slide27" style="display: none;">
+        <div class="slide">
+            <div class="slide-number">Questão 27 de 36</div>
+            <div class="question">Cria instâncias automatizadas baseadas em templates JSON/YAML</div>
+            <div class="options">
+                <div class="option" onclick="revealAnswer(27, true)">AWS CloudFormation</div>
+                <div class="option" onclick="revealAnswer(27, false)">AWS OpsWorks</div>
+            </div>
+            <div style="margin-top: 30px;">
+                <button class="start-button" onclick="showSlide(28)" id="next27" style="display: none;">Próxima Questão →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 28 -->
+    <div class="container" id="slide28" style="display: none;">
+        <div class="slide">
+            <div class="slide-number">Questão 28 de 36</div>
+            <div class="question">Serviço que registra chamadas de API para auditoria</div>
+            <div class="options">
+                <div class="option" onclick="revealAnswer(28, true)">AWS CloudTrail</div>
+                <div class="option" onclick="revealAnswer(28, false)">AWS Inspector</div>
+            </div>
+            <div style="margin-top: 30px;">
+                <button class="start-button" onclick="showSlide(29)" id="next28" style="display: none;">Próxima Questão →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 29 -->
+    <div class="container" id="slide29" style="display: none;">
+        <div class="slide">
+            <div class="slide-number">Questão 29 de 36</div>
+            <div class="question">Dispositivo físico da Snow Family para até 100 PetaBytes</div>
+            <div class="options">
+                <div class="option" onclick="revealAnswer(29, true)">AWS Snowmobile</div>
+                <div class="option" onclick="revealAnswer(29, false)">AWS Snowball Edge</div>
+            </div>
+            <div style="margin-top: 30px;">
+                <button class="start-button" onclick="showSlide(30)" id="next29" style="display: none;">Próxima Questão →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 30 -->
+    <div class="container" id="slide30" style="display: none;">
+        <div class="slide">
+            <div class="slide-number">Questão 30 de 36</div>
+            <div class="question">Perspectiva do CAF focada em capacidades e habilidades da força de trabalho</div>
+            <div class="options">
+                <div class="option" onclick="revealAnswer(30, true)">People</div>
+                <div class="option" onclick="revealAnswer(30, false)">Platform</div>
+            </div>
+            <div style="margin-top: 30px;">
+                <button class="start-button" onclick="showSlide(31)" id="next30" style="display: none;">Próxima Questão →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 31 -->
+    <div class="container" id="slide31" style="display: none;">
+        <div class="slide">
+            <div class="slide-number">Questão 31 de 36</div>
+            <div class="question">Volumes virtuais persistentes para instâncias EC2</div>
+            <div class="options">
+                <div class="option" onclick="revealAnswer(31, true)">Amazon EBS</div>
+                <div class="option" onclick="revealAnswer(31, false)">Instance Store</div>
+            </div>
+            <div style="margin-top: 30px;">
+                <button class="start-button" onclick="showSlide(32)" id="next31" style="display: none;">Próxima Questão →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 32 -->
+    <div class="container" id="slide32" style="display: none;">
+        <div class="slide">
+            <div class="slide-number">Questão 32 de 36</div>
+            <div class="question">Plano de suporte AWS com TAM dedicado</div>
+            <div class="options">
+                <div class="option" onclick="revealAnswer(32, true)">Enterprise</div>
+                <div class="option" onclick="revealAnswer(32, false)">Enterprise On-Ramp</div>
+            </div>
+            <div style="margin-top: 30px;">
+                <button class="start-button" onclick="showSlide(33)" id="next32" style="display: none;">Próxima Questão →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 33 -->
+    <div class="container" id="slide33" style="display: none;">
+        <div class="slide">
+            <div class="slide-number">Questão 33 de 36</div>
+            <div class="question">Classe de armazenamento S3 para arquivamento de longo prazo</div>
+            <div class="options">
+                <div class="option" onclick="revealAnswer(33, true)">S3 Glacier Deep Archive</div>
+                <div class="option" onclick="revealAnswer(33, false)">S3 Glacier Flexible Retrieval</div>
+            </div>
+            <div style="margin-top: 30px;">
+                <button class="start-button" onclick="showSlide(34)" id="next33" style="display: none;">Próxima Questão →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 34 -->
+    <div class="container" id="slide34" style="display: none;">
+        <div class="slide">
+            <div class="slide-number">Questão 34 de 36</div>
+            <div class="question">Serviço de orquestração para ambientes baseados em EC2</div>
+            <div class="options">
+                <div class="option" onclick="revealAnswer(34, true)">AWS Elastic Beanstalk</div>
+                <div class="option" onclick="revealAnswer(34, false)">AWS CodeDeploy</div>
+            </div>
+            <div style="margin-top: 30px;">
+                <button class="start-button" onclick="showSlide(35)" id="next34" style="display: none;">Próxima Questão →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 35 -->
+    <div class="container" id="slide35" style="display: none;">
+        <div class="slide">
+            <div class="slide-number">Questão 35 de 36</div>
+            <div class="question">Facilita migração de bancos de dados com tempo de inatividade mínimo</div>
+            <div class="options">
+                <div class="option" onclick="revealAnswer(35, true)">AWS DMS</div>
+                <div class="option" onclick="revealAnswer(35, false)">AWS DataSync</div>
+            </div>
+            <div style="margin-top: 30px;">
+                <button class="start-button" onclick="showSlide(36)" id="next35" style="display: none;">Próxima Questão →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 36 -->
+    <div class="container" id="slide36" style="display: none;">
+        <div class="slide">
+            <div class="slide-number">Questão 36 de 36</div>
+            <div class="question">Plano de suporte com acesso ao Trusted Advisor completo</div>
+            <div class="options">
+                <div class="option" onclick="revealAnswer(36, true)">Business</div>
+                <div class="option" onclick="revealAnswer(36, false)">Developer</div>
+            </div>
+            <div style="margin-top: 30px;">
+                <button class="start-button" onclick="showSlide(37)" id="next36" style="display: none;">Finalizar →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide Final -->
+    <div class="container" id="slide37" style="display: none;">
+        <div class="slide final-slide">
+            <h1>🎉 Parabéns!</h1>
+            <p>Você completou todos os 36 Battlecards AWS!</p>
+            <p>Continue estudando e boa sorte na certificação AWS Cloud Practitioner!</p>
+            <button class="start-button" onclick="restartPresentation()">🔄 Recomeçar</button>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <strong>Navegação:</strong><br>
+        Clique nas opções para revelar a resposta
+    </div>
+
+    <script>
+        function showSlide(slideNumber) {
+            // Esconder todos os slides
+            document.querySelectorAll('.container').forEach(container => {
+                container.style.display = 'none';
+            });
+            
+            const restartBtn = document.getElementById('restartBtn');
+            
+            // Mostrar slide específico
+            if (slideNumber === 0) {
+                document.getElementById('slide0').style.display = 'flex';
+                restartBtn.style.display = 'none';
+            } else {
+                document.getElementById('slide' + slideNumber).style.display = 'flex';
+                restartBtn.style.display = 'block';
+            }
+        }
+
+        function restartPresentation() {
+            // Resetar todos os slides
+            document.querySelectorAll('.slide').forEach(slide => {
+                slide.classList.remove('answer-revealed');
+                const options = slide.querySelectorAll('.option');
+                options.forEach(option => {
+                    option.classList.remove('correct', 'incorrect');
+                    option.style.pointerEvents = 'auto';
+                });
+                const nextButtons = slide.querySelectorAll('[id^="next"]');
+                nextButtons.forEach(btn => btn.style.display = 'none');
+            });
+            
+            // Voltar ao slide inicial
+            showSlide(0);
+        }
+
+        function revealAnswer(slideNumber, isCorrect) {
+            const slide = document.getElementById('slide' + slideNumber);
+            const options = slide.querySelectorAll('.option');
+            const nextButton = document.getElementById('next' + slideNumber);
+            
+            // Array com as respostas corretas (true = primeira opção, false = segunda opção)
+            const correctAnswers = [
+                false, // 1: Amazon Aurora (segunda opção)
+                true,  // 2: AWS Lambda (primeira opção)
+                true,  // 3: Reserved Instance (primeira opção)
+                true,  // 4: Business (primeira opção)
+                true,  // 5: Amazon CloudFront (primeira opção)
+                true,  // 6: Amazon DynamoDB (primeira opção)
+                true,  // 7: Security Group (primeira opção)
+                true,  // 8: Amazon S3 (primeira opção)
+                true,  // 9: AWS Inspector (primeira opção)
+                true,  // 10: Amazon SageMaker (primeira opção)
+                true,  // 11: Business (primeira opção)
+                true,  // 12: Elastic Load Balancer (primeira opção)
+                true,  // 13: Amazon DAX (primeira opção)
+                true,  // 14: Enterprise (primeira opção)
+                true,  // 15: Amazon Route 53 (primeira opção)
+                true,  // 16: Spot Instance (primeira opção)
+                true,  // 17: Amazon SQS (primeira opção)
+                true,  // 18: Amazon EFS (primeira opção)
+                true,  // 19: Amazon CloudWatch (primeira opção)
+                true,  // 20: S3 Standard-IA (primeira opção)
+                true,  // 21: AWS Artifact (primeira opção)
+                true,  // 22: AWS Direct Connect (primeira opção)
+                true,  // 23: Business (primeira opção)
+                true,  // 24: Amazon SNS (primeira opção)
+                true,  // 25: Network ACL (primeira opção)
+                true,  // 26: Amazon Neptune (primeira opção)
+                true,  // 27: AWS CloudFormation (primeira opção)
+                true,  // 28: AWS CloudTrail (primeira opção)
+                true,  // 29: AWS Snowmobile (primeira opção)
+                true,  // 30: People (primeira opção)
+                true,  // 31: Amazon EBS (primeira opção)
+                true,  // 32: Enterprise (primeira opção)
+                true,  // 33: S3 Glacier Deep Archive (primeira opção)
+                true,  // 34: AWS Elastic Beanstalk (primeira opção)
+                true,  // 35: AWS DMS (primeira opção)
+                true   // 36: Business (primeira opção)
+            ];
+            
+            // Marcar opções como corretas/incorretas
+            options.forEach((option, index) => {
+                const isFirstOption = index === 0;
+                const isCorrectAnswer = correctAnswers[slideNumber - 1];
+                
+                if ((isFirstOption && isCorrectAnswer) || (!isFirstOption && !isCorrectAnswer)) {
+                    option.classList.add('correct');
+                } else {
+                    option.classList.add('incorrect');
+                }
+                option.style.pointerEvents = 'none';
+            });
+            
+            // Mostrar botão próximo
+            nextButton.style.display = 'inline-block';
+            
+            // Adicionar classe para animação
+            slide.classList.add('answer-revealed');
+        }
+    </script>
+</body>
+</html>
+
